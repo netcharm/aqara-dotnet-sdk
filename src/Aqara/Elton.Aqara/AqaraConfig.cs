@@ -26,6 +26,10 @@ namespace Elton.Aqara
         public string MacAddress { get; set; }
         [JsonProperty("password")]
         public string Password { get; set; }
+        [JsonProperty("model")]
+        public string Model { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
         [JsonProperty("devices")]
         public AqaraDeviceConfig[] Devices { get; set; }
     }

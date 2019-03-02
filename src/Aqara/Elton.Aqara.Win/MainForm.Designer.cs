@@ -33,8 +33,6 @@
             this.labelTimestamp = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.labelToken = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.columnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,6 +40,8 @@
             this.columnData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnTimestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnDateUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelToken = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -110,28 +110,8 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.ShowEditingIcon = false;
-            this.dataGridView1.Size = new System.Drawing.Size(1760, 859);
+            this.dataGridView1.Size = new System.Drawing.Size(825, 459);
             this.dataGridView1.TabIndex = 4;
-            // 
-            // labelToken
-            // 
-            this.labelToken.Location = new System.Drawing.Point(154, 61);
-            this.labelToken.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelToken.Name = "labelToken";
-            this.labelToken.Size = new System.Drawing.Size(181, 26);
-            this.labelToken.TabIndex = 6;
-            this.labelToken.Text = "<Token>";
-            this.labelToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(13, 61);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(133, 26);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "令牌";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // columnId
             // 
@@ -199,11 +179,31 @@
             this.columnDateUpdated.ReadOnly = true;
             this.columnDateUpdated.Visible = false;
             // 
+            // labelToken
+            // 
+            this.labelToken.Location = new System.Drawing.Point(154, 61);
+            this.labelToken.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelToken.Name = "labelToken";
+            this.labelToken.Size = new System.Drawing.Size(181, 26);
+            this.labelToken.TabIndex = 6;
+            this.labelToken.Text = "<Token>";
+            this.labelToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(13, 61);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(133, 26);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "令牌";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1784, 961);
+            this.ClientSize = new System.Drawing.Size(849, 561);
             this.Controls.Add(this.labelToken);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dataGridView1);

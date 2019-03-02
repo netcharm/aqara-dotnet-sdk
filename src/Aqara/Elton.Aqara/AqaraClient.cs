@@ -21,7 +21,7 @@ namespace Elton.Aqara
         public AqaraClient(AqaraConfig config)
         {
             dicGateways = new Dictionary<string, AqaraGateway>(StringComparer.OrdinalIgnoreCase);
-            if (config.Gateways != null)
+            if (config is AqaraConfig && config.Gateways != null)
             {
                 foreach (var gateway in config.Gateways)
                 {
@@ -29,7 +29,10 @@ namespace Elton.Aqara
                         continue;
 
                     var sid = gateway.MacAddress.Replace(":", "").ToLower();
-                    AqaraGateway entry = new AqaraGateway(this, sid, gateway.Password, gateway.Devices);
+                    var gateway_devices = gateway.Devices.ToList();
+                    gateway_devices.Insert(0, new AqaraDeviceConfig() { Name = gateway.Name, Model = gateway.Model, DeviceId = sid });
+                    gateway.Devices = gateway_devices.ToArray();
+                    AqaraGateway entry = new AqaraGateway(this, sid, gateway.Password, gateway.Devices) { Model = gateway.Model, Name = gateway.Name };
                     dicGateways.Add(entry.Id, entry);
                 }
             }
@@ -88,7 +91,7 @@ namespace Elton.Aqara
         bool cancellationPending = false;
         public bool CancellationPending => cancellationPending;
 
-        public void DoWork(object state)
+        public async void DoWork(object state)
         {
             this.client = new UdpClient();
             client.ExclusiveAddressUse = false;
@@ -103,23 +106,37 @@ namespace Elton.Aqara
 
             SendDiscover(client);
 
+            bool gw_first = true;
+            DateTime last_timestaamp = DateTime.Now;
             while (true)
             {
                 if (CancellationPending)
                     break;
 
                 try
-                {
-                    UdpReceiveResult result = client.ReceiveAsync().Result;
-                    Byte[] data = result.Buffer;
+                {                   
+                    //UdpReceiveResult result = client.ReceiveAsync().Result;
+                    UdpReceiveResult result = await client.ReceiveAsync();
+                    byte[] data = result.Buffer;
                     DateTime timestamp = DateTime.Now;
                     var remoteAddress = result.RemoteEndPoint.Address.ToString();
 
                     string jsonString = Encoding.UTF8.GetString(data);
                     log.Debug($"Received: {jsonString}");
                     ProcessMessage(remoteAddress, jsonString, timestamp);
+
+                    if (gw_first || (timestamp - last_timestaamp).Seconds >= 10 )
+                    {
+                        foreach (var gkv in this.Gateways)
+                        {
+                            this.SendCommand(gkv.Value, $"{{\"cmd\":\"read\",\"sid\":\"{gkv.Value.Id}\"}}");
+                            //this.SendCommand(gkv.Value, $"{{\"cmd\":\"report\",\"model\":\"gateway\",\"sid\":\"{gkv.Value.Id}\",\"short_id\":0, \"data\":\"{{{gw_data}}}\"}}");
+                        }
+                        last_timestaamp = timestamp;
+                        gw_first = false;
+                    }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     log.Error("client.ReceiveAsync.", ex);
                 }
@@ -127,7 +144,7 @@ namespace Elton.Aqara
 
             client.DropMulticastGroup(IPAddress.Parse(Consts.MulticastAddress));
 
-            client.Dispose();
+            //client.Dispose();
         }
 
         public void SendWriteCommand(string sid, IEnumerable<KeyValuePair<string, string>> arguments = null)

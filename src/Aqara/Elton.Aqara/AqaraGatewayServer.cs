@@ -123,7 +123,7 @@ namespace Elton.Aqara
 
             clientDiscovery.DropMulticastGroup(IPAddress.Parse(MULTICAST_ADDRESS));
 
-            clientDiscovery.Dispose();
+            //clientDiscovery.Dispose();
         }
 
         void ProcessMessage(IPEndPoint remoteEP, string jsonString, DateTime timestamp)

@@ -129,7 +129,7 @@ namespace Elton.Aqara
 
         void UpdateDeviceData(AqaraGateway gateway, string sid, string model, long shortId, string jsonString)
         {
-            if (!gateway.Devices.ContainsKey(sid))
+            if (gateway is AqaraGateway && !gateway.Devices.ContainsKey(sid))
                 return;
             var device = gateway.Devices[sid];
             device.Update(model, shortId);
@@ -143,7 +143,7 @@ namespace Elton.Aqara
         }
         void UpdateDeviceHeartbeatReceived(AqaraGateway gateway, string sid, string model, long shortId, string jsonString)
         {
-            if (!gateway.Devices.ContainsKey(sid))
+            if (gateway is AqaraGateway && !gateway.Devices.ContainsKey(sid))
                 return;
             var device = gateway.Devices[sid];
             device.Update(model, shortId);
@@ -180,10 +180,10 @@ namespace Elton.Aqara
             long short_id = message.short_id;
             string jsonString = message.data;
 
-            if (!gateway.Devices.ContainsKey(sid))
+            if (gateway is AqaraGateway && !gateway.Devices.ContainsKey(sid))
                 return;
             var deviceId = sid;
-            if (!gateway.Devices.ContainsKey(deviceId))
+            if (gateway is AqaraGateway && !gateway.Devices.ContainsKey(deviceId))
                 return;
 
             AqaraDevice device = gateway.Devices[deviceId] as AqaraDevice;

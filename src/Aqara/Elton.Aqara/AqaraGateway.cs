@@ -19,6 +19,8 @@ namespace Elton.Aqara
         readonly AqaraClient client = null;
         readonly string sid = null;
         readonly string password = null;
+        public string Model { get; internal set; } = string.Empty;
+        public string Name { get; internal set; } = string.Empty;
         IPEndPoint endpoint = null;
         string token = null;
         DateTime latestTimestamp = DateTime.MinValue;
