@@ -17,13 +17,14 @@ namespace Elton.Aqara
 
         DateTime latestTimestamp = DateTime.MinValue;
         public string Id { get; private set; }
-        public UInt16 ShortId { get; private set; }
+        public ushort ShortId { get; private set; }
         public AqaraDevice(AqaraClient connector, AqaraGateway gateway, string sid, AqaraDeviceConfig config)
         {
             this.connector = connector;
             this.gateway = gateway;
             this.Id = sid;
             this.config = config;
+            description = DeviceModel.GetFriendlyName(config.Model);
         }
 
         public string Name
@@ -40,15 +41,15 @@ namespace Elton.Aqara
 
         public DeviceModel Model => model;
 
-        string name = null;
+        string name = default(string);
         DeviceModel model = null;
-        string description = null;
+        string description = default(string);
         public void Update(string modelName, long short_id)
         {
             this.model = DeviceModel.Parse(modelName);
-            if (short_id > UInt16.MaxValue)
+            if (short_id > ushort.MaxValue)
                 throw new ArgumentOutOfRangeException("short_id 值比 UInt16 大。");
-            ShortId = (UInt16)short_id;
+            ShortId = (ushort)short_id;
 
             latestTimestamp = DateTime.Now;
         }

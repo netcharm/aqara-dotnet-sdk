@@ -3,6 +3,8 @@
     {
       "mac": "00:00:00:00:00:00",
       "password": "****************",
+      "name": "you gateway name",
+      "model": "lumi.gateway.v3",
       "devices": [
         {
           "model": "lumi.ctrl_86plug.v1",

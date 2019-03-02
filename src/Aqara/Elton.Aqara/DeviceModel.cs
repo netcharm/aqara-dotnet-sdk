@@ -84,10 +84,20 @@ namespace Elton.Aqara
         }
         public static string GetFriendlyName(string name)
         {
-            if (dicNames.ContainsKey(name))
-                return dicNames[name].FriendlyName;
+            string result = string.Empty;
 
-            return null;
+            var nameparts = name.Split('.');
+
+            if (dicNames.ContainsKey(name))
+                result = dicNames[name].FriendlyName;
+            else if (nameparts.Length >= 2)
+            {
+                var devmodel = nameparts[1].Replace("sensor_", "");
+                if (dicNames.ContainsKey(devmodel))
+                    result = $"{dicNames[devmodel].FriendlyName}[{dicNames[devmodel].friendlyNameEN}]";
+            }
+
+            return(result);
         }
     }
 }
