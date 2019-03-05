@@ -24,7 +24,8 @@ namespace Elton.Aqara
             this.gateway = gateway;
             this.Id = sid;
             this.config = config;
-            description = DeviceModel.GetFriendlyName(config.Model);
+            this.model = DeviceModel.GetModelByName(config.Model);
+            description = DeviceModel.GetDescription(config.Model);
         }
 
         public string Name
@@ -95,6 +96,27 @@ namespace Elton.Aqara
         {
             get { return dicStates; }
         }
+
+        public double Voltage
+        {
+            get
+            {
+                double result = double.NaN;
+                try
+                {
+                    if (States.ContainsKey("voltage"))
+                    {
+                        result = Convert.ToDouble(States["voltage"].Value) / 1000.0;
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
+        public string NewStateName = string.Empty;
+
+        //public abstract bool Opened();
 
         public DateTime LatestTimestamp
         {

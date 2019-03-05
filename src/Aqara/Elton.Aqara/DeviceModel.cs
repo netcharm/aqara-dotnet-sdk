@@ -75,6 +75,35 @@ namespace Elton.Aqara
 
             return null;
         }
+
+        public static string GetName(DeviceModelId id)
+        {
+            if (dicModels.ContainsKey(id))
+                return dicModels[id].Name;
+
+            return null;
+        }
+
+        public static DeviceModel GetModelByName(string name)
+        {
+            DeviceModel result = default(DeviceModel);
+
+            var nameparts = name.Split('.');
+
+            if (dicNames.ContainsKey(name))
+                result = dicNames[name];
+            else if (nameparts.Length >= 2)
+            {
+                var devmodel = nameparts[1].Replace("sensor_", "");
+                if(dicNames.ContainsKey(nameparts[1]))
+                    result = dicNames[nameparts[1]];
+                else if (dicNames.ContainsKey(devmodel))
+                    result = dicNames[devmodel];
+            }
+
+            return (result);
+        }
+
         public static string GetFriendlyName(DeviceModelId id)
         {
             if (dicModels.ContainsKey(id))
@@ -82,7 +111,8 @@ namespace Elton.Aqara
 
             return null;
         }
-        public static string GetFriendlyName(string name)
+
+        public static string GetFriendlyNameByName(string name)
         {
             string result = string.Empty;
 
@@ -94,10 +124,46 @@ namespace Elton.Aqara
             {
                 var devmodel = nameparts[1].Replace("sensor_", "");
                 if (dicNames.ContainsKey(devmodel))
-                    result = $"{dicNames[devmodel].FriendlyName}[{dicNames[devmodel].friendlyNameEN}]";
+                    result = $"{dicNames[devmodel].FriendlyName}";
             }
 
             return(result);
+        }
+
+        public static string GetFriendlyNameEnByName(string name)
+        {
+            string result = string.Empty;
+
+            var nameparts = name.Split('.');
+
+            if (dicNames.ContainsKey(name))
+                result = dicNames[name].FriendlyName;
+            else if (nameparts.Length >= 2)
+            {
+                var devmodel = nameparts[1].Replace("sensor_", "");
+                if (dicNames.ContainsKey(devmodel))
+                    result = $"{dicNames[devmodel].friendlyNameEN}";
+            }
+
+            return (result);
+        }
+
+        public static string GetDescription(string name)
+        {
+            string result = string.Empty;
+
+            var nameparts = name.Split('.');
+
+            if (dicNames.ContainsKey(name))
+                result = dicNames[name].FriendlyName;
+            else if (nameparts.Length >= 2)
+            {
+                var devmodel = nameparts[1].Replace("sensor_", "");
+                if (dicNames.ContainsKey(devmodel))
+                    result = $"{dicNames[devmodel].friendlyName}[{dicNames[devmodel].friendlyNameEN}]";
+            }
+
+            return (result);
         }
     }
 }

@@ -41,7 +41,46 @@ namespace Elton.Aqara
                     if (dicDevices.ContainsKey(systemid))
                         throw new ArgumentException("设备清单中已存在具有相同键的元素");
 
-                    var device = new AqaraDevice(client, this, systemid, item);
+                    //var device = new AqaraDevice(client, this, systemid, item);
+
+                    AqaraDevice device = new AqaraDevice(client, this, systemid, item);
+                    if (device.Model is DeviceModel)
+                    {
+                        switch (device.Model.Name)
+                        {
+                            case "cube"://a.窗磁传感器
+                                device = new CubeDevice(client, this, systemid, item);
+                                break;
+                            case "magnet"://a.窗磁传感器
+                                device = new MagnetDevice(client, this, systemid, item);
+                                break;
+                            case "motion"://人体传感器
+                                device = new MotionDevice(client, this, systemid, item);
+                                break;
+                            case "switch"://无线开关传感器
+                                device = new SwitchDevice(client, this, systemid, item);
+                                break;
+                            case "plug"://智能插座
+                                device = new PlugDevice(client, this, systemid, item);
+                                break;
+                            case "ctrl_neutral1"://单火开关单键
+                                break;
+                            case "ctrl_neutral2"://单火开关双键
+                                device = new CtrlNeutral2Device(client, this, systemid, item);
+                                break;
+                            case "86sw1"://无线开关单键
+                                break;
+                            case "86sw2"://无线开关双键
+                                break;
+                            case "sensor_ht"://温湿度传感器
+                                device = new SensorHTDevice(client, this, systemid, item);
+                                break;
+                            case "rgbw_light"://j.LUMI.LIGHT.RGBW
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     device.Name = item.Name;
                     dicDevices.Add(systemid, device);
                 }

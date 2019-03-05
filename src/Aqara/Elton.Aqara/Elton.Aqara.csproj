@@ -51,15 +51,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\XiaoMiGateway\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
+      <HintPath>..\..\..\..\XiaoMiGateway\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\XiaoMiGateway\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+      <HintPath>..\..\..\..\XiaoMiGateway\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\XiaoMiGateway\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\XiaoMiGateway\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -83,13 +83,18 @@
     <Compile Include="DeviceModelId.cs" />
     <Compile Include="DeviceState.cs" />
     <Compile Include="Devices\CtrlNeutral2Device.cs" />
+    <Compile Include="Devices\CubeDevice.cs" />
+    <Compile Include="Devices\MagnetDevice.cs" />
+    <Compile Include="Devices\MotionDevice.cs" />
     <Compile Include="Devices\PlugDevice.cs" />
+    <Compile Include="Devices\SensorHTDevice.cs" />
     <Compile Include="Devices\SwitchDevice.cs" />
     <Compile Include="Events\StateChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ref\KnownFolders.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="config\aqara-sample.json" />
     <None Include="packages.config" />
     <None Include="Ref\KnownFolders.url" />

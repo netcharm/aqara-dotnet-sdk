@@ -190,9 +190,29 @@ namespace Elton.Aqara
             device.Update(model, short_id);
             switch (model)
             {
+                case "cube"://a.窗磁传感器
+                    if (!(device is CubeDevice))
+                    {
+                        device = new CubeDevice(this, device.Gateway, device.Id, device.Config);
+                        gateway.Devices[deviceId] = device;
+                        device.Update(model, short_id);
+                    }
+                    break;
                 case "magnet"://a.窗磁传感器
+                    if (!(device is MagnetDevice))
+                    {
+                        device = new MagnetDevice(this, device.Gateway, device.Id, device.Config);
+                        gateway.Devices[deviceId] = device;
+                        device.Update(model, short_id);
+                    }
                     break;
                 case "motion"://人体传感器
+                    if (!(device is MotionDevice))
+                    {
+                        device = new MotionDevice(this, device.Gateway, device.Id, device.Config);
+                        gateway.Devices[deviceId] = device;
+                        device.Update(model, short_id);
+                    }
                     break;
                 case "switch"://无线开关传感器
                     if (!(device is SwitchDevice))
@@ -225,6 +245,12 @@ namespace Elton.Aqara
                 case "86sw2"://无线开关双键
                     break;
                 case "sensor_ht"://温湿度传感器
+                    if (!(device is SensorHTDevice))
+                    {
+                        device = new SensorHTDevice(this, device.Gateway, device.Id, device.Config);
+                        gateway.Devices[deviceId] = device;
+                        device.Update(model, short_id);
+                    }
                     break;
                 case "rgbw_light"://j.LUMI.LIGHT.RGBW
                     break;
