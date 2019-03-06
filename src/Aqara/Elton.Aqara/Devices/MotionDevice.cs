@@ -12,8 +12,6 @@ namespace Elton.Aqara
         {
         }
 
-        public bool StateChanged { get; set; } = true;
-
         public bool Motion
         {
             get
@@ -31,20 +29,22 @@ namespace Elton.Aqara
             }
         }
 
+        private int no_motion = 0;
         public int NoMotion
         {
             get
             {
-                int result = -1;
                 try
                 {
-                    if (States.ContainsKey("no_motion"))
-                    {
-                        result = Convert.ToInt32(States["no_motion"].Value);
-                    }
+                    if (NewStateName.Equals("no_motion")) no_motion = Convert.ToInt32(NewStateValue);
+                    else if (NewStateName.Equals("status") && NewStateValue.Equals("motion")) no_motion = 0;
+                    //if (States.ContainsKey("no_motion"))
+                    //{
+                    //    no_motion = Convert.ToInt32(States["no_motion"].Value);
+                    //}
                 }
                 catch (Exception) { }
-                return (result);
+                return (no_motion);
             }
         }
 

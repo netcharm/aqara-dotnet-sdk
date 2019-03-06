@@ -97,6 +97,15 @@ namespace Elton.Aqara
             get { return dicStates; }
         }
 
+        public DateTime LatestTimestamp
+        {
+            get { return latestTimestamp; }
+        }
+
+        public string NewStateName { get; set; } = string.Empty;
+        public string NewStateValue { get; set; } = string.Empty;
+        public uint StateDuration { get; set; } = 0;
+
         public double Voltage
         {
             get
@@ -114,13 +123,7 @@ namespace Elton.Aqara
             }
         }
 
-        public string NewStateName = string.Empty;
 
-        //public abstract bool Opened();
 
-        public DateTime LatestTimestamp
-        {
-            get { return latestTimestamp; }
-        }
     }
 }

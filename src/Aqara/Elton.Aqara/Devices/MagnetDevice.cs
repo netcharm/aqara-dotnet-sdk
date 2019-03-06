@@ -47,20 +47,22 @@ namespace Elton.Aqara
             }
         }
 
+        private int no_close = 0;
         public int NoClosed
         {
             get
             {
-                int result = -1;
                 try
                 {
-                    if (States.ContainsKey("no_close"))
-                    {
-                        result = Convert.ToInt32(States["no_close"].Value);
-                    }
+                    if (NewStateName.Equals("no_close")) no_close = Convert.ToInt32(NewStateValue);
+                    else if (NewStateName.Equals("status") && NewStateValue.Equals("open")) no_close = 0;
+                    //if (States.ContainsKey("no_close"))
+                    //{
+                    //    no_close = Convert.ToInt32(States["no_close"].Value);
+                    //}
                 }
                 catch (Exception) { }
-                return (result);
+                return (no_close);
             }
         }
     }
