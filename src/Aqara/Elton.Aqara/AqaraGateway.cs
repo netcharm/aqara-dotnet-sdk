@@ -77,6 +77,9 @@ namespace Elton.Aqara
                                 break;
                             case "rgbw_light"://j.LUMI.LIGHT.RGBW
                                 break;
+                            case "gateway"://MiJia/XiaoMi/Aqara Gateway
+                                device = new MiJiaGatewayDevice(client, this, systemid, item);
+                                break;
                             default:
                                 break;
                         }

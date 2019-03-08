@@ -254,6 +254,14 @@ namespace Elton.Aqara
                     break;
                 case "rgbw_light"://j.LUMI.LIGHT.RGBW
                     break;
+                case "gateway"://MiJia/XiaoMi/Aqara Gateway
+                    if (!(device is MiJiaGatewayDevice))
+                    {
+                        device = new MiJiaGatewayDevice(this, device.Gateway, device.Id, device.Config);
+                        gateway.Devices[deviceId] = device;
+                        device.Update(model, short_id);
+                    }
+                    break;
                 default:
                     device.Update(model, short_id);
                     break;

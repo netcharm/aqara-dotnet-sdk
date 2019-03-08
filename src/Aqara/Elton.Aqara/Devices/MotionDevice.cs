@@ -29,35 +29,37 @@ namespace Elton.Aqara
             }
         }
 
-        private int no_motion = 0;
-        public int NoMotion
+        private uint no_motion = 0;
+        public uint NoMotion
         {
             get
             {
                 try
                 {
-                    if (NewStateName.Equals("no_motion")) no_motion = Convert.ToInt32(NewStateValue);
-                    else if (NewStateName.Equals("status") && NewStateValue.Equals("motion")) no_motion = 0;
-                    //if (States.ContainsKey("no_motion"))
-                    //{
-                    //    no_motion = Convert.ToInt32(States["no_motion"].Value);
-                    //}
+                    if (NewStateName.Equals("status") && NewStateValue.Equals("motion"))
+                    {
+                        no_motion = 0;
+                    }
                 }
                 catch (Exception) { }
-                return (no_motion);
+                return (no_motion + StateDuration);
             }
         }
 
-        public int Lux
+        public uint Lux
         {
             get
             {
-                int result = -1;
+                uint result = 0;
                 try
                 {
                     if (States.ContainsKey("lux"))
                     {
-                        result = Convert.ToInt32(States["lux"].Value);
+                        try
+                        {
+                            result = Convert.ToUInt32(States["lux"].Value);
+                        }
+                        catch (Exception) { }
                     }
                 }
                 catch (Exception) { }
@@ -65,5 +67,23 @@ namespace Elton.Aqara
             }
         }
 
+        private string new_value;
+        public override string NewStateValue
+        {
+            get { return (new_value); }
+            set
+            {
+                new_value = value;
+                if (NewStateName.Equals("status") && NewStateValue.Equals("motion")) no_motion = 0;
+                else if (NewStateName.Equals("no_motion"))
+                {
+                    try
+                    {
+                        no_motion = Math.Max(no_motion, Convert.ToUInt32(value));
+                    }
+                    catch (Exception) { }
+                }
+            }
+        }
     }
 }

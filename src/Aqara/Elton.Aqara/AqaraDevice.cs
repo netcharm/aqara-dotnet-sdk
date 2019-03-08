@@ -102,9 +102,9 @@ namespace Elton.Aqara
             get { return latestTimestamp; }
         }
 
-        public string NewStateName { get; set; } = string.Empty;
-        public string NewStateValue { get; set; } = string.Empty;
-        public uint StateDuration { get; set; } = 0;
+        public virtual string NewStateName { get; set; } = string.Empty;
+        public virtual string NewStateValue { get; set; } = string.Empty;
+        public virtual uint StateDuration { get; set; } = 0;
 
         public double Voltage
         {

@@ -25,7 +25,6 @@ namespace Elton.Aqara
                     }
                 }
                 catch (Exception) { }
-
                 return (result);
             }
         }
@@ -47,22 +46,39 @@ namespace Elton.Aqara
             }
         }
 
-        private int no_close = 0;
-        public int NoClosed
+        private uint no_close = 0;
+        public uint NoClosed
         {
             get
             {
                 try
                 {
-                    if (NewStateName.Equals("no_close")) no_close = Convert.ToInt32(NewStateValue);
-                    else if (NewStateName.Equals("status") && NewStateValue.Equals("open")) no_close = 0;
-                    //if (States.ContainsKey("no_close"))
-                    //{
-                    //    no_close = Convert.ToInt32(States["no_close"].Value);
-                    //}
+                    if (NewStateName.Equals("status") && NewStateValue.Equals("open"))
+                    {
+                        no_close = 0;
+                    }
                 }
                 catch (Exception) { }
-                return (no_close);
+                return (no_close + StateDuration);
+            }
+        }
+
+        private string new_value;
+        public override string NewStateValue
+        {
+            get { return (new_value); }
+            set
+            {
+                new_value = value;
+                if (NewStateName.Equals("status") && NewStateValue.Equals("open")) no_close = 0;
+                else if (NewStateName.Equals("no_close"))
+                {
+                    try
+                    {
+                        no_close = Math.Max(no_close, Convert.ToUInt32(value));
+                    }
+                    catch (Exception) { }
+                }
             }
         }
     }
