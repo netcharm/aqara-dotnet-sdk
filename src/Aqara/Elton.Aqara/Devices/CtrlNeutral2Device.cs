@@ -14,7 +14,7 @@ namespace Elton.Aqara
         
         public void TurnOn()
         {
-            var dic = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
             dic.Add("channel_0", "on");
             dic.Add("channel_1", "on");
             connector.SendWriteCommand(this, dic);
@@ -22,7 +22,7 @@ namespace Elton.Aqara
 
         public void TurnOff()
         {
-            var dic = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
             dic.Add("channel_0", "off");
             dic.Add("channel_1", "off");
             connector.SendWriteCommand(this, dic);

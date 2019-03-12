@@ -131,11 +131,6 @@ namespace Elton.Aqara
                         {
                             rgb = Convert.ToUInt32(States["rgb"].Value);
                             result = ParseColor(rgb);
-                            //var a = (rgb & 0xFF000000) >> 24; // 0xFF000000;
-                            //var r = (rgb & 0x00FF0000) >> 16;
-                            //var g = (rgb & 0x0000FF00) >> 8;
-                            //var b = (rgb & 0x000000FF);
-                            //result = Color.FromArgb((int)a, (int)r, (int)g, (int)b);
                         }
                         catch (Exception) { }
                     }
@@ -150,9 +145,9 @@ namespace Elton.Aqara
             }
         }
 
-        public bool LightIsOn()
+        public bool IsLight()
         {
-            if (Light == Color.Black) return (false);
+            if (Light.ToArgb() == Color.Black.ToArgb()) return (false);
             else return (true);
         }
 

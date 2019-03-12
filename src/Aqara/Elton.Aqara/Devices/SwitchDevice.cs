@@ -19,8 +19,8 @@ namespace Elton.Aqara
         {
             //{"cmd":"write","model":"switch","sid":"112316","short_id":4343,"data":"{\"status\":\"click\"}" }
 
-            var dic = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            dic.Add("status", "on");
+            var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
+            dic.Add("status", status);
             connector.SendWriteCommand(this, dic);
         }
 

@@ -60,11 +60,13 @@ namespace Elton.Aqara
                 }
             }
 
-            StringBuilder sb = new StringBuilder();
-            foreach (byte item in encryptedBytes)
-                sb.Append(item.ToString("X2"));
+            return(string.Join("", encryptedBytes.Select(b => b.ToString("X2"))));
 
-            return sb.ToString();
+            //StringBuilder sb = new StringBuilder();
+            //foreach (byte item in encryptedBytes)
+            //    sb.Append(item.ToString("X2"));
+
+            //return sb.ToString();
         }
 
         UdpClient client = null;
@@ -147,7 +149,7 @@ namespace Elton.Aqara
             //client.Dispose();
         }
 
-        public void SendWriteCommand(string sid, IEnumerable<KeyValuePair<string, string>> arguments = null)
+        public void SendWriteCommand(string sid, IEnumerable<KeyValuePair<string, dynamic>> arguments = null)
         {
             var gateway = dicGateways.Values.SingleOrDefault(p => p.Devices.ContainsKey(sid));
             if (gateway == null)
@@ -156,23 +158,25 @@ namespace Elton.Aqara
             SendWriteCommand(gateway.Devices[sid], arguments);
         }
 
-        public void SendWriteCommand(AqaraDevice device, IEnumerable<KeyValuePair<string, string>> arguments = null)
+        public void SendWriteCommand(AqaraDevice device, IEnumerable<KeyValuePair<string, dynamic>> arguments = null)
         {
             AqaraGateway gateway = device.Gateway;
 
-            var dicData = new Dictionary<string, string>();
+            var dicData = new Dictionary<string, dynamic>();
             if (arguments != null)
             {
                 foreach (var pair in arguments)
                     dicData.Add(pair.Key, pair.Value);
             }
-            dicData.Add("key", Encrypt(gateway.Password, gateway.Token));
+            var key = Encrypt(gateway.Password, gateway.Token);
+            dicData.Add("key", key);
 
             dynamic message = new {
                 cmd = "write",
                 model = device.Model?.Name,
                 sid = device.Id,
                 short_id = device.ShortId,
+                //key = key,
                 data = JsonConvert.SerializeObject(dicData),
             };
 
