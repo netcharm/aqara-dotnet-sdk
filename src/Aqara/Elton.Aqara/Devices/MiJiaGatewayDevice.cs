@@ -122,7 +122,7 @@ namespace Elton.Aqara
         {
             get
             {
-                Color result = Color.White;
+                Color result = Color.Empty;
                 try
                 {
                     if (States.ContainsKey("rgb"))
@@ -145,11 +145,21 @@ namespace Elton.Aqara
             }
         }
 
-        public bool IsLight()
+        public bool IsLight
         {
-            if (Light.ToArgb() == Color.Black.ToArgb()) return (false);
-            else return (true);
+            get
+            {
+                if (Light.ToArgb() == 0) return (false);
+                else return (true);
+
+            }
         }
+
+        //public bool IsLight()
+        //{
+        //    if (Light.ToArgb() == Color.Black.ToArgb()) return (false);
+        //    else return (true);
+        //}
 
         public void LightOn(uint color = 0)
         {

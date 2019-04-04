@@ -15,15 +15,6 @@ namespace Elton.Aqara
         {
         }
         
-        protected void Write(string status)
-        {
-            //{"cmd":"write","model":"switch","sid":"112316","short_id":4343,"data":"{\"status\":\"click\"}" }
-
-            var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
-            dic.Add("status", status);
-            connector.SendWriteCommand(this, dic);
-        }
-
         public void Click()
         {
             Write("click");
@@ -34,9 +25,11 @@ namespace Elton.Aqara
             Write("double_click");
         }
 
-        public void LongClickPress()
+        public void LongPress()
         {
             Write("long_click_press");
+            System.Threading.Thread.Sleep(50);
+            Write("long_click_release");
         }
     }
 }

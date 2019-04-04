@@ -12,6 +12,7 @@ namespace Elton.Aqara
         {
         }
 
+        /// 翻转90度
         public bool Flip90
         {
             get
@@ -29,6 +30,7 @@ namespace Elton.Aqara
             }
         }
 
+        ///翻转180度
         public bool Flip180
         {
             get
@@ -45,7 +47,7 @@ namespace Elton.Aqara
                 return (result);
             }
         }
-
+        ///平移
         public bool Move
         {
             get
@@ -62,8 +64,8 @@ namespace Elton.Aqara
                 return (result);
             }
         }
-
-        public bool Tap_Twice
+        ///双击
+        public bool DoubleTap
         {
             get
             {
@@ -79,8 +81,8 @@ namespace Elton.Aqara
                 return (result);
             }
         }
-
-        public bool Shake_Air
+        ///摇一摇
+        public bool Shake
         {
             get
             {
@@ -96,7 +98,7 @@ namespace Elton.Aqara
                 return (result);
             }
         }
-
+        ///用力甩
         public bool Swing
         {
             get
@@ -113,7 +115,7 @@ namespace Elton.Aqara
                 return (result);
             }
         }
-
+        ///静止一段时间后被触动
         public bool Alert
         {
             get
@@ -130,8 +132,8 @@ namespace Elton.Aqara
                 return (result);
             }
         }
-
-        public bool Free_Fall
+        ///自由下落
+        public bool Falling
         {
             get
             {
@@ -150,7 +152,7 @@ namespace Elton.Aqara
 
         public class RotateValue
         {
-            public double Rotate { get; set; }
+            public double Angle { get; set; }
             public double Duration { get; set; }
         }
 
@@ -166,7 +168,7 @@ namespace Elton.Aqara
                         var value = States["rotate"].Value.Split(',');
                         if (value.Length == 2)
                         {
-                            result.Rotate = Convert.ToDouble(value[0].Trim()) * 3.6;
+                            result.Angle = Convert.ToDouble(value[0].Trim()) * 3.6;
                             result.Duration = Convert.ToDouble(value[1].Trim());
                         }
                     }

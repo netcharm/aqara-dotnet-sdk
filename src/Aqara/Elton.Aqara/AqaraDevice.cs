@@ -123,7 +123,29 @@ namespace Elton.Aqara
             }
         }
 
+        protected void Write(string status)
+        {
+            //{"cmd":"write","model":"switch","sid":"112316","short_id":4343,"data":"{\"status\":\"click\"}" }
+            var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
+            dic.Add("status", status);
+            connector.SendWriteCommand(this, dic);
+        }
 
+        protected void Write(string key, string value)
+        {
+            var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
+            dic.Add(key, value);
+            connector.SendWriteCommand(this, dic);
+        }
 
+        protected void Write(IEnumerable<KeyValuePair<string, string>> values)
+        {
+            var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
+            foreach (var kv in values)
+            {
+                dic.Add(kv.Key, kv.Value);
+            }
+            connector.SendWriteCommand(this, dic);
+        }
     }
 }
