@@ -13,6 +13,12 @@ namespace Elton.Aqara.Win
 {
     public partial class MainForm : Form
     {
+        internal static string APPFOLDER = Path.GetDirectoryName(Application.ExecutablePath);
+        internal string SKYFOLDER = Path.Combine(KnownFolderPaths.KnownFolders.GetPath(KnownFolderPaths.KnownFolder.SkyDrive), @"ApplicationData\ConnectedHome");
+        internal string DOCFOLDER = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments), @"Elton\ConnectedHome\");
+        internal string SCRIPT_FILE = Path.Combine(APPFOLDER, "actions.csx");
+        internal string USERNAME = Environment.UserName;
+
         readonly AqaraClient client = null;
         readonly Timer timerRefresh = null;
         readonly DataTable table = new DataTable();
@@ -20,16 +26,15 @@ namespace Elton.Aqara.Win
         {
             InitializeComponent();
 
-            string basePath = Path.Combine(
-                KnownFolderPaths.KnownFolders.GetPath(KnownFolderPaths.KnownFolder.SkyDrive),
-                @"ApplicationData\ConnectedHome\");
-            if (!Directory.Exists(basePath))
-            {
-                Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments),
-                    @"Elton\ConnectedHome\");
-            }
-            var configFile = Path.Combine(basePath, "config", "aqara.json");
+            var basepath = APPFOLDER;
+            if (Directory.Exists(APPFOLDER))
+                basepath = APPFOLDER;
+            else if (Directory.Exists(SKYFOLDER))
+                basepath = SKYFOLDER;
+            else if (Directory.Exists(DOCFOLDER))
+                basepath = DOCFOLDER;
+
+            var configFile = Path.Combine(basepath, "config", "aqara.json");
             AqaraConfig config = null;
             if(File.Exists(configFile))
             {

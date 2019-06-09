@@ -14,21 +14,116 @@ namespace Elton.Aqara
         public PlugDevice(AqaraClient connector, AqaraGateway gateway, string sid, AqaraDeviceConfig config) : base(connector, gateway, sid, config)
         {
         }
-        
-        public void TurnOn()
+
+        public bool IsOn
+        {
+            get
+            {
+                bool result = false;
+                try
+                {
+                    if (States.ContainsKey("status"))
+                    {
+                        if (States["status"].Value.Equals("on", StringComparison.OrdinalIgnoreCase)) result = true;
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
+        public bool InUse
+        {
+            get
+            {
+                bool result = false;
+                try
+                {
+                    if (States.ContainsKey("inuse"))
+                    {
+                        if (States["inuse"].Value.Equals("1", StringComparison.OrdinalIgnoreCase)) result = true;
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
+        public double LoadVoltage
+        {
+            get
+            {
+                double result = 0;
+                try
+                {
+                    if (States.ContainsKey("load_voltage"))
+                    {
+                         result = Convert.ToDouble(States["load_voltage"].Value)/1000;
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
+        public double LoadPower
+        {
+            get
+            {
+                double result = 0;
+                try
+                {
+                    if (States.ContainsKey("load_power"))
+                    {
+                        result = Convert.ToDouble(States["load_voltage"].Value);
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
+        public double PowerConsumed
+        {
+            get
+            {
+                double result = 0;
+                try
+                {
+                    if (States.ContainsKey("power_consumed"))
+                    {
+                        result = Convert.ToDouble(States["power_consumed"].Value);
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
+        public void On()
         {
             Write("on");
-            //var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
-            //dic.Add("status", "on");
-            //connector.SendWriteCommand(this, dic);
+        }
+
+        public void Off()
+        {
+            Write("off");
+        }
+
+        public void TurnOn()
+        {
+            On();
         }
 
         public void TurnOff()
         {
-            Write("off");
-            //var dic = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
-            //dic.Add("status", "off");
-            //connector.SendWriteCommand(this, dic);
+            Off();
+        }
+
+        public void Toggle()
+        {
+            if (IsOn) Off();
+            else On();
         }
     }
 }

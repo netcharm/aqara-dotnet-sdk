@@ -14,7 +14,59 @@ namespace Elton.Aqara
         public SwitchDevice(AqaraClient connector, AqaraGateway gateway, string sid, AqaraDeviceConfig config) : base(connector, gateway, sid, config)
         {
         }
-        
+
+        public bool IsClick
+        {
+            get
+            {
+                bool result = false;
+                try
+                {
+                    if (States.ContainsKey("status") && NewStateName.Equals("status", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (States["status"].Value.Equals("click", StringComparison.OrdinalIgnoreCase)) result = true;
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
+        public bool IsDoubldClick
+        {
+            get
+            {
+                bool result = false;
+                try
+                {
+                    if (States.ContainsKey("status") && NewStateName.Equals("status", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (States["status"].Value.Equals("double_click", StringComparison.OrdinalIgnoreCase)) result = true;
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
+        public bool IsLongPress
+        {
+            get
+            {
+                bool result = false;
+                try
+                {
+                    if (States.ContainsKey("status") && NewStateName.Equals("status", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //if (States["status"].Value.Equals("long_click_press", StringComparison.OrdinalIgnoreCase)) result = true;
+                        if (States["status"].Value.Equals("long_click_release", StringComparison.OrdinalIgnoreCase)) result = true;
+                    }
+                }
+                catch (Exception) { }
+                return (result);
+            }
+        }
+
         public void Click()
         {
             Write("click");
