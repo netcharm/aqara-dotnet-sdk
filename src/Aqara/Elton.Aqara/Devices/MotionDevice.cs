@@ -28,6 +28,7 @@ namespace Elton.Aqara
                 return (result);
             }
         }
+        public bool IsMotion { get { return Motion; } }
 
         private uint no_motion = 0;
         public uint NoMotion

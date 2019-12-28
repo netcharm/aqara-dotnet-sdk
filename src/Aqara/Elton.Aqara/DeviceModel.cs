@@ -88,17 +88,20 @@ namespace Elton.Aqara
         {
             DeviceModel result = default(DeviceModel);
 
-            var nameparts = name.Split('.');
-
-            if (dicNames.ContainsKey(name))
-                result = dicNames[name];
-            else if (nameparts.Length >= 2)
+            if (!string.IsNullOrEmpty(name))
             {
-                var devmodel = nameparts[1].Replace("sensor_", "");
-                if(dicNames.ContainsKey(nameparts[1]))
-                    result = dicNames[nameparts[1]];
-                else if (dicNames.ContainsKey(devmodel))
-                    result = dicNames[devmodel];
+                var nameparts = name.Split('.');
+
+                if (dicNames.ContainsKey(name))
+                    result = dicNames[name];
+                else if (nameparts.Length >= 2)
+                {
+                    var devmodel = nameparts[1].Replace("sensor_", "");
+                    if (dicNames.ContainsKey(nameparts[1]))
+                        result = dicNames[nameparts[1]];
+                    else if (dicNames.ContainsKey(devmodel))
+                        result = dicNames[devmodel];
+                }
             }
 
             return (result);
@@ -116,15 +119,18 @@ namespace Elton.Aqara
         {
             string result = string.Empty;
 
-            var nameparts = name.Split('.');
-
-            if (dicNames.ContainsKey(name))
-                result = dicNames[name].FriendlyName;
-            else if (nameparts.Length >= 2)
+            if (!string.IsNullOrEmpty(name))
             {
-                var devmodel = nameparts[1].Replace("sensor_", "");
-                if (dicNames.ContainsKey(devmodel))
-                    result = $"{dicNames[devmodel].FriendlyName}";
+                var nameparts = name.Split('.');
+
+                if (dicNames.ContainsKey(name))
+                    result = dicNames[name].FriendlyName;
+                else if (nameparts.Length >= 2)
+                {
+                    var devmodel = nameparts[1].Replace("sensor_", "");
+                    if (dicNames.ContainsKey(devmodel))
+                        result = $"{dicNames[devmodel].FriendlyName}";
+                }
             }
 
             return(result);
@@ -152,15 +158,18 @@ namespace Elton.Aqara
         {
             string result = string.Empty;
 
-            var nameparts = name.Split('.');
-
-            if (dicNames.ContainsKey(name))
-                result = dicNames[name].FriendlyName;
-            else if (nameparts.Length >= 2)
+            if (!string.IsNullOrEmpty(name))
             {
-                var devmodel = nameparts[1].Replace("sensor_", "");
-                if (dicNames.ContainsKey(devmodel))
-                    result = $"{dicNames[devmodel].friendlyName}[{dicNames[devmodel].friendlyNameEN}]";
+                var nameparts = name.Split('.');
+
+                if (dicNames.ContainsKey(name))
+                    result = dicNames[name].FriendlyName;
+                else if (nameparts.Length >= 2)
+                {
+                    var devmodel = nameparts[1].Replace("sensor_", "");
+                    if (dicNames.ContainsKey(devmodel))
+                        result = $"{dicNames[devmodel].friendlyName}[{dicNames[devmodel].friendlyNameEN}]";
+                }
             }
 
             return (result);

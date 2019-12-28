@@ -13,15 +13,15 @@ namespace Elton.Aqara
         protected virtual void ProcessMessage(string remoteAddress, string jsonString, DateTime timestamp)
         {
             AqaraGateway gateway = null;
-            foreach(var item in dicGateways.Values)
+            foreach (var item in dicGateways.Values)
             {
-                if(item?.EndPoint?.Address.ToString() == remoteAddress)
+                if (item?.EndPoint?.Address.ToString() == remoteAddress)
                 {
                     gateway = item;
                     break;
                 }
             }
-            
+
             dynamic content = JsonConvert.DeserializeObject(jsonString);
 
             string cmd = content.cmd;
@@ -46,7 +46,7 @@ namespace Elton.Aqara
             string model = message.model;
             string ip = message.ip;
 
-            if (gateway !=null && gateway?.Id != sid)
+            if (gateway != null && gateway?.Id != sid)
                 throw new Exception();
             if (!dicGateways.ContainsKey(sid))
                 return;
@@ -78,8 +78,8 @@ namespace Elton.Aqara
             foreach (string sid in data)
             {
                 var deviceId = sid;
-                
-                if(!gateway.Devices.ContainsKey(deviceId))
+
+                if (!gateway.Devices.ContainsKey(deviceId))
                 {
                     AqaraDevice device = new AqaraDevice(this, gateway, sid, null);
                     gateway.Devices.Add(deviceId, device);
@@ -132,7 +132,7 @@ namespace Elton.Aqara
             if (gateway is AqaraGateway && !gateway.Devices.ContainsKey(sid))
                 return;
             var device = gateway.Devices[sid];
-            device.Update(model, shortId);
+            device.Update(model, shortId, jsonString);
             var listChanged = device.UpdateData(jsonString);
 
             foreach (var args in listChanged)
@@ -141,6 +141,7 @@ namespace Elton.Aqara
                     DeviceStateChanged(device, args);
             }
         }
+
         void UpdateDeviceHeartbeatReceived(AqaraGateway gateway, string sid, string model, long shortId, string jsonString)
         {
             if (gateway is AqaraGateway && !gateway.Devices.ContainsKey(sid))
@@ -187,7 +188,7 @@ namespace Elton.Aqara
                 return;
 
             AqaraDevice device = gateway.Devices[deviceId] as AqaraDevice;
-            device.Update(model, short_id);
+            device.Update(model, short_id, jsonString);
             switch (model)
             {
                 case "cube"://a.窗磁传感器

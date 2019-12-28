@@ -91,7 +91,12 @@ namespace Elton.Aqara
 
 
         bool cancellationPending = false;
-        public bool CancellationPending => cancellationPending;
+        //public bool CancellationPending => cancellationPending;
+        public bool CancellationPending
+        {
+            get { return (cancellationPending); }
+            set { cancellationPending = value; }
+        }
 
         public async void DoWork(object state)
         {
@@ -112,7 +117,9 @@ namespace Elton.Aqara
             DateTime last_timestaamp = DateTime.Now;
             while (true)
             {
-                if (CancellationPending)
+                if (CancellationPending ||
+                    (state is bool && (bool)state == false ) ||
+                    (state is System.Threading.CancellationToken && ((System.Threading.CancellationToken)state).IsCancellationRequested))
                     break;
 
                 try
@@ -131,7 +138,7 @@ namespace Elton.Aqara
                     {
                         foreach (var gkv in this.Gateways)
                         {
-                            this.SendCommand(gkv.Value, $"{{\"cmd\":\"read\",\"sid\":\"{gkv.Value.Id}\"}}");
+                            SendCommand(gkv.Value, $"{{\"cmd\":\"read\",\"sid\":\"{gkv.Value.Id}\"}}");
                             //this.SendCommand(gkv.Value, $"{{\"cmd\":\"report\",\"model\":\"gateway\",\"sid\":\"{gkv.Value.Id}\",\"short_id\":0, \"data\":\"{{{gw_data}}}\"}}");
                         }
                         last_timestaamp = timestamp;
@@ -145,8 +152,6 @@ namespace Elton.Aqara
             }
 
             client.DropMulticastGroup(IPAddress.Parse(Consts.MulticastAddress));
-
-            //client.Dispose();
         }
 
         public void SendWriteCommand(string sid, IEnumerable<KeyValuePair<string, dynamic>> arguments = null)

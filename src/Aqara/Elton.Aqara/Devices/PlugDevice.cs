@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,49 @@ namespace Elton.Aqara
     /// </summary>
     public class PlugDevice : AqaraDevice
     {
+        private System.Timers.Timer timer = new System.Timers.Timer(1000) { Enabled = false, AutoReset = true };
+
         public PlugDevice(AqaraClient connector, AqaraGateway gateway, string sid, AqaraDeviceConfig config) : base(connector, gateway, sid, config)
         {
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
         }
+
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Read();
+        }
+
+        //public override void Update(string modelName, long short_id, string jsonString)
+        //{
+        //    base.Update(modelName, short_id);
+        //    if (string.IsNullOrEmpty(jsonString)) return;
+        //    if (jsonString.Contains("\"status\""))
+        //    {
+        //        if (jsonString.Length < 25)
+        //        {
+        //            Read();
+        //        }
+        //        else
+        //        {
+        //            dynamic data = JsonConvert.DeserializeObject(jsonString);
+        //            foreach (var item in data)
+        //            {
+        //                string key = item.Name;
+        //                string value = item.Value;
+
+        //                if (!States.ContainsKey(key))
+        //                    States.Add(key, new DeviceState(key));
+
+        //                States[key].SetValue(value);
+        //            }
+        //            //if ((IsOn && !InUse) || (!IsOn && InUse))
+        //            //    Read();
+        //            //await Task.Delay(1000);
+        //            //Read();
+        //        }
+        //    }
+        //}
 
         public bool IsOn
         {

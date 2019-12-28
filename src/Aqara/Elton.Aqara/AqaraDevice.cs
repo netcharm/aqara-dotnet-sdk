@@ -45,9 +45,9 @@ namespace Elton.Aqara
         string name = default(string);
         DeviceModel model = null;
         string description = default(string);
-        public void Update(string modelName, long short_id)
+        public virtual void Update(string modelName, long short_id, string jsonString=default(string))
         {
-            this.model = DeviceModel.Parse(modelName);
+            model = DeviceModel.Parse(modelName);
             if (short_id > ushort.MaxValue)
                 throw new ArgumentOutOfRangeException("short_id 值比 UInt16 大。");
             ShortId = (ushort)short_id;
@@ -121,6 +121,11 @@ namespace Elton.Aqara
                 catch (Exception) { }
                 return (result);
             }
+        }
+
+        protected void Read()
+        {
+            connector.SendCommand(this.Gateway, $"{{\"cmd\":\"read\",\"sid\":\"{this.Id}\"}}");
         }
 
         protected void Write(string status)
